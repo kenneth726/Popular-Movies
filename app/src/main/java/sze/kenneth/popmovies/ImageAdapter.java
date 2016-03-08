@@ -8,21 +8,23 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private String[] mThumbIds;
+    private List<Movie> movieList;
 
-    public ImageAdapter(Context c, String[] mThumbIds) {
+    public ImageAdapter(Context c, List<Movie> movieList) {
         mContext = c;
-        this.mThumbIds = mThumbIds;
+        this.movieList = movieList;
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return movieList.size();
     }
 
-    public Object getItem(int position) {
-        return null;
+    public Movie getItem(int position) {
+        return movieList.get(position);
     }
 
     public long getItemId(int position) {
@@ -39,7 +41,9 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        Picasso.with(mContext).load(mThumbIds[position]).resize(600, 900).centerCrop().into(imageView);
+        final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
+        String path = POSTER_BASE_URL + movieList.get(position).getPosterPath();
+        Picasso.with(mContext).load(path).resize(600, 900).centerCrop().into(imageView);
         //imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
